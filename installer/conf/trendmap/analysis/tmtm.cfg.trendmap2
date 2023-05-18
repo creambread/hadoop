@@ -1,0 +1,10 @@
+#로컬서버의 모든 ip를 대상으로 서버를 열 경우(tcp://*), 특정 아이피만 열 경우에는 아이피로(tcp://127.0.0.1)
+TCP_ADDR=tcp://*
+IPC_ADDR=ipc:///home/trendmap/Trendmap2/TextMiningServer/sock/trendmap_tm.sock
+#IPC_ADDR=ipc:///home/trendmap/Trendmap2/TrendMap_v2.0_engine/sock/trendmap_tm.sock
+INPROC_ADDR=inproc://trendmap_text_mining
+PORT=5002
+THREAD_NUM=10
+DIC_PATH=/home/trendmap/Trendmap2/TextMiningServer/resource.some/TrM
+ANAL_TYPE=SOME
+#ANAL_TYPE=SOME

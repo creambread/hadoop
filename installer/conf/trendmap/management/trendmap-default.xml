@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- core-site.xml, core-default.xml, hbase-site.xml, hbase-default.xml 의 
+	설정을 덮어씀 -->
+<!-- -D로 설정한 프로퍼티가 나중에 추가되므로 -D가 우선순위가 제일 높음 -->
+<configuration>
+    <property>
+        <name>io.serializations</name>
+        <value>org.apache.hadoop.io.serializer.JavaSerialization,org.apache.hadoop.io.serializer.WritableSerialization,org.apache.hadoop.hbase.mapreduce.MutationSerialization,org.apache.hadoop.hbase.mapreduce.ResultSerialization,org.apache.hadoop.hbase.mapreduce.KeyValueSerialization</value>
+    </property>
+	<property>
+		<name>mapreduce.map.speculative</name>
+		<value>false</value>
+	</property>
+	<property>
+		<name>mapreduce.reduce.speculative</name>
+		<value>false</value>
+	</property>
+        <property>
+                <name>mapreduce.map.java.opts</name>
+                <value>-Xmx2048m</value>
+        </property>
+        <property>
+                <name>mapreduce.reduce.java.opts</name>
+                <value>-Xmx2048m</value>
+        </property>
+	<!--property>
+		<name>mapred.job.queue.name</name>
+		<value>trendmap</value>
+	</property-->
+	
+	<!-- seq 파일의 기본설정 -->
+	<property>
+		<name>io.seqfile.compression.type</name>
+		<value>BLOCK</value>
+	</property>
+
+	<!-- map 출력의 압축설정 -->
+	<property>
+		<name>mapreduce.map.output.compress</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>mapred.map.output.compression.type</name>
+		<value>BLOCK</value>
+	</property>
+	<property>
+		<name>mapreduce.output.fileoutputformat.compress.type</name>
+		<value>org.apache.hadoop.io.compress.SnappyCodec</value>
+	</property>
+
+	<!-- reduce 출력의 압축 설정 -->
+	<property>
+		<name>mapreduce.output.fileoutputformat.compress</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>mapreduce.output.fileoutputformat.compress.type</name>
+		<value>BLOCK</value>
+	</property>
+	<property>
+		<name>mapreduce.output.fileoutputformat.compress.codec</name>
+		<value>org.apache.hadoop.io.compress.GzipCodec</value>
+	</property>
+
+	<property>
+		<name>com.daumsoft.trendmap.mapreduce.numberOfReducer</name>
+		<value>16</value>
+	</property>
+
+	<!-- hdfs 디렉토리 설정 -->
+	<property>
+		<name>com.daumsoft.trendmap.baseDir</name>
+		<value>/user/trendmap</value>
+	</property>
+	<property>
+		<name>com.daumsoft.trendmap.tmpDir</name>
+		<value>/tmp/trendmap</value>
+	</property>
+
+
+	<!-- 기타 기본 설정 -->
+	<property>
+		<name>com.daumsoft.trendmap.wal</name>
+		<value>false</value>
+	</property>
+	<property>
+		<name>com.daumsoft.trendmap.commitCount</name>
+		<value>1000</value>
+	</property>
+</configuration>

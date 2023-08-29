@@ -14,21 +14,21 @@ hadoop 에코시스템 설치 모듈 <br>
 
 - 호스트 및 사용자 설정
 ```
-vi $INSTALL_HOME/script/cf-env.sh
+vi $MANAGER_HOME/script/cf-env.sh
 ```
 - cf-env.sh에 세팅한 bin압축파일 수급(java, hadoop, zookeeper ... )
-- $INSTALL_HOME/script/cf-installer.sh 실행후 안내 사항대로 설치 (hadoop을 제일먼저 설치해야함)
+- $MANAGER_HOME/script/cf-installer.sh 실행후 안내 사항대로 설치 (hadoop을 제일먼저 설치해야함)
 ```
-$INSTALL_HOME/script/cf-installer.sh
+$MANAGER_HOME/script/cf-installer.sh
 ```
-- $INSTALL_HOME/script/cf-command.sh 로 기동종료 테스트
+- $MANAGER_HOME/script/cf-command.sh 로 기동종료 테스트
 ```
-$INSTALL_HOME/script/cf-command.sh start hadoop
-$INSTALL_HOME/script/cf-command.sh status hadoop
+$MANAGER_HOME/script/cf-command.sh start hadoop
+$MANAGER_HOME/script/cf-command.sh status hadoop
 ```
-- 설치중 에러 발생 및 문제가 발생하면 {INSTALL_HOME}/script/util/delete-cf.sh 를 이용하여 삭제 하거나, 강제로 삭제하고난 후 진행
+- 설치중 에러 발생 및 문제가 발생하면 {MANAGER_HOME}/script/util/delete-cf.sh 를 이용하여 삭제 하거나, 강제로 삭제하고난 후 진행
 ```
-$INSTALL_HOME/script/util/delete-cf.sh hadoop
+$MANAGER_HOME/script/util/delete-cf.sh hadoop
 ```
 
 ## TODO LIST

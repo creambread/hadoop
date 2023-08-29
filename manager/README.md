@@ -1,4 +1,4 @@
-# Hadoop_Installer v0.2
+# CF_Hadoop_Manager v0.2
 
 hadoop 에코시스템 설치 모듈 <br>
 설치 파일인 zookeeper, hadoop, java 등 bin파일은 이 installer 에서 지원하지 않음<br>
@@ -28,7 +28,7 @@ $INSTALL_HOME/script/cf-command.sh status hadoop
 ```
 - 설치중 에러 발생 및 문제가 발생하면 {INSTALL_HOME}/script/util/delete-cf.sh 를 이용하여 삭제 하거나, 강제로 삭제하고난 후 진행
 ```
-{INSTALL_HOME}/script/util/delete-cf.sh hadoop
+$INSTALL_HOME/script/util/delete-cf.sh hadoop
 ```
 
 ## TODO LIST

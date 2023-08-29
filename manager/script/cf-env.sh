@@ -8,7 +8,7 @@ else
 # ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 # cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 # chmod 0600 ~/.ssh/authorized_keys
-
+#
 ########## common setting #############
 export JAVA_HOME=/home/hadoop/java
 export HADOOP_HOME=/home/hadoop/hadoop
@@ -18,14 +18,15 @@ export PATH=$JAVA_HOME/bin:$HADOOP_HOME/bin:$HBASE_HOME/bin:$SPARK_HOME/bin:$PAT
 
 export CF_ENV_LOADED=TRUE
 export CF_JAVA_HOME=/home/hadoop/java
-export CF_JAVA_SRC=jdk-8u291-linux-x64.tar.gz
+export CF_JAVA_SRC=jdk-8u322-ojdkbuild-linux-x64.tar.gz
+export CF_ADMINTOOL_JAVA_SRC=openjdk-17.0.2_linux-x64_bin.tar.gz
 
 export CF_HOSTS=cf01,cf02,cf03,cf04,cf05,cf06,cf07
 export CF_NAMENODE_HOSTS=cf01,cf02
 export CF_DATANODE_HOSTS=cf03,cf04,cf05,cf06,cf07
 
-export CF_INSTALLER_SRCDIR=/home/trendmap/installer/src
-export CF_INSTALLER_HOME=/home/trendmap/installer
+export CF_INSTALLER_SRCDIR=/home/tester/installer/src
+export CF_INSTALLER_HOME=/home/tester/installer
 export CF_INSTALLER_DOWNLOAD_DIR_NAME=cf_download
 
 export CF_COL_BYELLO='\033[1;33m'
@@ -39,7 +40,7 @@ export CF_COL_END='\033[0m'
 export CF_HADOOP_USER=hadoop
 export CF_HADOOP_INSTALL_DIR=/home/hadoop
 export CF_HADOOP_HOME=${CF_HADOOP_INSTALL_DIR}/hadoop
-export CF_HADOOP_SRC=hadoop-3.3.4.tar.gz
+export CF_HADOOP_SRC=hadoop-3.2.4.tar.gz
 
 export CF_HDFS_NN_DIR=/cluster/hadoop
 export CF_HDFS_DN_DIR=/cluster/disk1/hadoop,/cluster/disk2/hadoop,/cluster/disk3/hadoop
@@ -74,7 +75,7 @@ export CF_HBASE_USE=TRUE
 export CF_HBASE_USER=hadoop
 export CF_HBASE_INSTALL_DIR=/home/hadoop
 export CF_HBASE_HOME=${CF_HBASE_INSTALL_DIR}/hbase
-export CF_HBASE_SRC=hbase-2.5.1-bin.tar.gz
+export CF_HBASE_SRC=hbase-2.5.5-bin.tar.gz
 export CF_HBASE_INSTALL_HOSTS=cf01,cf02,cf03,cf04,cf05,cf06,cf07
 export CF_HBASE_MASTER_HOSTS=cf01,cf02
 export CF_HBASE_REGION_HOSTS=cf03,cf04,cf05,cf06,cf07
@@ -92,15 +93,6 @@ export CF_SPARK_INSTALL_HOSTS=cf01,cf03,cf04,cf05,cf06,cf07
 export CF_SPARK_MASTER_HOSTS=cf01
 export CF_SPARK_SLAVE_HOSTS=cf03,cf04,cf05,cf06,cf07
 
-######### trendmap setting #############
-export CF_TRENDMAP_USER=trendmap
-export CF_TRENDMAP_INSTALL_DIR=/home/trendmap
-export CF_TRENDMAP_HOME=/home/trendmap
-export CF_TRENDMAP_MANAGEMENT_HOSTS=cf01
-export CF_TRENDMAP_API_HOSTS=cf01
-export CF_TRENDMAP_ADMINTOOL_HOSTS=cf01
-export CF_TRENDMAP_ANALYSIS_HOSTS=cf03,cf04,cf05,cf06,cf07
-
 ######## common function ##############
 function cf_ssh() {
         HOSTS=$1
@@ -115,16 +107,19 @@ function cf_ssh() {
         IFS=","
         HOSTS_ARRAY=($HOSTS)
         IFS=$IFS_OLD
-
+	
         for x in "${HOSTS_ARRAY[@]}"
         do
                 (
-                	ssh $USER@$x $MSG
+			echo -e "${CF_COL_BWHITE}work in $x ${CF_COL_END}"
+                	ssh $USER@$x "$MSG"
                 ) &
         done
         wait
 
 }
+
+#interactive ssh
 function cf_ssh_command() {
         HOSTS=$1
         USER=$2
@@ -143,7 +138,7 @@ function cf_ssh_command() {
         do
                 (
  	                echo -e "${CF_COL_BWHITE}work in $x ${CF_COL_END}"
-                	ssh $USER@$x "bash -ic '$COMMAND'"
+			ssh $USER@$x "bash -ic '$COMMAND'"
                 ) &
         done
         wait
@@ -226,7 +221,7 @@ function cf_ssh_status_ps() {
         do
                 (
                 echo -e "${CF_COL_BWHITE}work in $x check status ... ${CF_COL_END}"
-                PS_MSG=$(ssh $USER@$x "bash -ic 'ps -ef | grep $PS | grep -v grep'")
+                PS_MSG=$(ssh $USER@$x "ps -ef | grep $PS | grep -v grep")
 		PS_ARR=($PS_MSG)
                 if [[ ${PS_ARR[1]} -eq "" ]] ; then
                         echo -e "${CF_COL_BRED}$x $MODE is stopped.${CF_COL_END}"

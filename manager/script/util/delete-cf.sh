@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function print_usage() {
-	echo "Usage : ${0} <hadoop|hbase|spark|trendmap>"
+	echo "Usage : ${0} <hadoop|hbase|spark>"
 }
 function endScript() {
 	echo "end script"
@@ -25,7 +25,6 @@ case $TARGET in
         "hadoop") HOSTS_ARRAY=($CF_HOSTS);TARGET_HOSTS=$CF_HOSTS;;
         "hbase") HOSTS_ARRAY=($CF_HBASE_INSTALL_HOSTS);TARGET_HOSTS=$CF_HBASE_INSTALL_HOSTS;;
         "spark") HOSTS_ARRAY=($CF_SPARK_INSTALL_HOSTS);TARGET_HOSTS=$CF_SPARK_INSTALL_HOSTS;;
-        "trendmap") HOSTS_ARRAY=($CF_TRENDMAP_ANALYSIS_HOSTS);TARGET_HOSTS=$CF_HOSTS;;
         *) print_usage;exit;;
 esac
 IFS=$IFS_OLD
@@ -140,56 +139,11 @@ function spark() {
 }
 
 
-function trendmap() {
-	echo delete $TARGET every things...
-	echo -e "${CF_COL_BWHITE}work in $CF_TRENDMAP_MANAGEMENT_HOSTS ${CF_COL_END}"
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/bin"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/bin
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/conf"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/conf
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/lib"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/lib
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/logs"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_MANAGEMENT_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/logs
-
-	echo -e "${CF_COL_BWHITE}work in $CF_TRENDMAP_API_HOSTS ${CF_COL_END}"
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_API_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/api"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_API_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/api
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_API_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/Trendmap2"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_API_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/Trendmap2
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_API_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_API_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-
-	echo -e "${CF_COL_BWHITE}work in $CF_TRENDMAP_ADMINTOOL_HOSTS ${CF_COL_END}"
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_ADMINTOOL_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/admintool"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_ADMINTOOL_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/admintool
-	echo "ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_ADMINTOOL_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME"
-	ssh $CF_TRENDMAP_USER@$CF_TRENDMAP_ADMINTOOL_HOSTS rm -rf $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-
-
-
-        for x in "${HOSTS_ARRAY[@]}"
-        do
-                (
-                echo -e "${CF_COL_BWHITE}work in $x ${CF_COL_END}"
-		echo "ssh $CF_TRENDMAP_USER@$x rm -rf $CF_TRENDMAP_INSTALL_DIR/association"
-                ssh $CF_TRENDMAP_USER@$x rm -rf $CF_TRENDMAP_INSTALL_DIR/association
-		echo "ssh $CF_TRENDMAP_USER@$x rm -rf $CF_TRENDMAP_INSTALL_DIR/Trendmap2"
-                ssh $CF_TRENDMAP_USER@$x rm -rf $CF_TRENDMAP_INSTALL_DIR/Trendmap2
-		echo "ssh $CF_TRENDMAP_USER@$x rm -rf $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME"
-                ssh $CF_TRENDMAP_USER@$x rm -rf $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-                ) &
-        done
-        wait
-
-}
-
 function init() {
 	case $TARGET in
 		"hadoop") hadoop;;
 	        "hbase") hbase;;
 	        "spark") spark;;
-	        "trendmap") trendmap;;
 	        *) print_usage;;
 	esac
 }

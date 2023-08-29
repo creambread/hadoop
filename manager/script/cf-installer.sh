@@ -3,16 +3,14 @@ CURR_DIR=$(cd "${EXEC_FILE%${EXEC_FILE##*/}}./"; echo "$PWD")
 . ${CURR_DIR}/cf-env.sh
 
 function print_usage() {
-	echo "Usage : ${0} <hadoop|hbase|spark|trendmap>"
-        echo ""
-        echo "hadoop		: install hadoop system"
-	echo "hbase		: install hbase system"
-        echo "spark		: install spark system"
-        echo "trendmap	: install trendmap system"
+	echo -e "${CF_COL_YELLO}Usage : ${0} <hadoop|hbase|spark> $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO} $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}hadoop            : install hadoop system $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}hbase             : install hbase system $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}spark             : install spark system $SCRIPT${CF_COL_END}"
 	echo ""
         echo -e "${CF_COL_BYELLO}CHECK1 : setting cf-env.sh, conf files${CF_COL_END}"
         echo -e "$ hadoop,hbase,zookeeper setting"
-        echo -e "$ trendmap setting"
 	echo -e ""
         echo -e "${CF_COL_BYELLO}CHECK2 : Need all commander to all hosts user ssh free setting${CF_COL_END}"
         echo -e "$ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa"
@@ -115,13 +113,6 @@ function spark() {
         ${CURR_DIR}/util/copy-package-all.sh spark installer
         ${CURR_DIR}/util/unarchive-package-all.sh spark
         ${CURR_DIR}/util/copy-settings-all.sh spark installer
-}
-
-function trendmap() {
-        ${CURR_DIR}/util/copy-package-all.sh trendmap src
-        ${CURR_DIR}/util/copy-package-all.sh trendmap installer
-	${CURR_DIR}/util/unarchive-package-all.sh trendmap
-	${CURR_DIR}/util/copy-settings-all.sh trendmap installer
 }
 
 function check_hadoop_dir() {
@@ -250,6 +241,5 @@ case $MODE in
 	"hadoop") hadoop;echo_end;;
 	"spark") spark;echo_end;;
 	"hbase") hbase;echo_end;;
-        "trendmap") trendmap;echo_end;;
         *) print_usage;;
 esac

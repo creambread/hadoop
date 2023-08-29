@@ -1,8 +1,7 @@
-# Hadoop_Installer v0.1
+# Hadoop_Installer v0.2
 
 hadoop 에코시스템 설치 모듈 <br>
-기본적으로 zookeeper와 hadoop, java 설치 tar파일을 따로 구해야 한다 <br>
-공개는 했지만 아직 잘모르고 사용하기엔 부족함이 있음
+설치 파일인 zookeeper, hadoop, java 등 bin파일은 이 installer 에서 지원하지 않음<br>
 
 ## 목표
 

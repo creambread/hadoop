@@ -7,15 +7,13 @@ ENV_DIR=${CURR_DIR}
 . ${ENV_DIR}/cf-env.sh
 
 function print_usage() {
-	echo "Usage : ${0} <start|stop|status> <all|hadoop|hbase|spark|trendmap>"
-        echo " "
-        echo "all	: <mode> all system"
-        echo "hadoop	: <mode> hadoop & zookeeper system"
-        echo "hbase	: <mode> hbase system"
-        echo "spark	: <mode> spark system"
-        echo "hadoop	: <mode> trendmap system"
-	echo " "
-
+	echo -e "${CF_COL_YELLO}Usage : ${0} <start|stop|status> <all|hadoop|hbase|spark> $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO} $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}all       : <mode> all system $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}hadoop    : <mode> hadoop & zookeeper system $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}hbase     : <mode> hbase system $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO}spark     : <mode> spark system $SCRIPT${CF_COL_END}"
+	echo -e "${CF_COL_YELLO} $SCRIPT${CF_COL_END}"
 }
 function endScript() {
 	echo "end script"
@@ -76,11 +74,6 @@ function start_app() {
 		"spark")
 		$CURR_DIR/command/cf-spark.sh start
 		;;
-		"trendmap")
-		$CURR_DIR/command/cf-trendmap-api.sh start
-		$CURR_DIR/command/cf-trendmap-analysis.sh start
-		$CURR_DIR/command/cf-trendmap-admintool.sh start
-		;;
 	esac
 }
 
@@ -130,11 +123,6 @@ function stop_app() {
                 "spark")
 		$CURR_DIR/command/cf-spark.sh stop
 		;;
-                "trendmap")
-		$CURR_DIR/command/cf-trendmap-api.sh stop
-		$CURR_DIR/command/cf-trendmap-analysis.sh stop
-		$CURR_DIR/command/cf-trendmap-admintool.sh stop
-		;;
         esac
 } 
 
@@ -179,11 +167,6 @@ function status_app() {
                 "spark")
                 $CURR_DIR/command/cf-spark.sh status
                 ;;
-                "trendmap")
-		$CURR_DIR/command/cf-trendmap-api.sh status
-		$CURR_DIR/command/cf-trendmap-analysis.sh status
-		$CURR_DIR/command/cf-trendmap-admintool.sh status
-		;;
         esac
 }
 

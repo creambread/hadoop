@@ -5,7 +5,7 @@ ENV_DIR=${CURR_DIR%/*}
 . ${ENV_DIR}/cf-env.sh
 
 function print_usage() {
-	echo "Usage : ${0} <hadoop|hbase|spark|trendmap> <src|installer>"
+	echo "Usage : ${0} <hadoop|hbase|spark> <src|installer>"
         echo ""
         echo "src		: copy target system src file"
         echo "installer	: copy installer"
@@ -30,7 +30,6 @@ case $TARGET in
         "hadoop")TARGET_HOSTS=$CF_HOSTS;;
         "hbase")TARGET_HOSTS=$CF_HBASE_INSTALL_HOSTS;;
         "spark")TARGET_HOSTS=$CF_SPARK_INSTALL_HOSTS;;
-        "trendmap");;
         *) print_usage;exit;;
 esac
 
@@ -52,15 +51,6 @@ function copy_src() {
 			cf_ssh_mkdir $TARGET_HOSTS $CF_SPARK_USER $CF_HADOOP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
 			cf_scp $TARGET_HOSTS $CF_SPARK_USER $CF_INSTALLER_SRCDIR/$CF_SPARK_SRC $CF_HADOOP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
 		;;
-		"trendmap")
-			cf_ssh_mkdir $CF_HOSTS $CF_TRENDMAP_USER $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-			cf_scp $CF_TRENDMAP_API_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_SRCDIR/api.tar.gz $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-			cf_scp $CF_TRENDMAP_API_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_SRCDIR/$CF_JAVA_SRC $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-			cf_scp $CF_TRENDMAP_MANAGEMENT_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_SRCDIR/management.tar.gz $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-			cf_scp $CF_TRENDMAP_ADMINTOOL_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_SRCDIR/admintool.tar.gz $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-			cf_scp $CF_TRENDMAP_ANALYSIS_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_SRCDIR/analysis.tar.gz $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-			cf_scp $CF_TRENDMAP_ANALYSIS_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_SRCDIR/dependency.tar.gz $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-		;;
 	esac
 }
 
@@ -79,10 +69,6 @@ function copy_installer() {
 		cf_ssh_mkdir $TARGET_HOSTS $CF_SPARK_USER $CF_HADOOP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
 		cf_scp $TARGET_HOSTS $CF_SPARK_USER $CF_INSTALLER_HOME/script $CF_SPARK_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
                 ;;
-        "trendmap")
-                cf_ssh_mkdir $CF_HOSTS $CF_TRENDMAP_USER $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-                cf_scp $CF_HOSTS $CF_TRENDMAP_USER $CF_INSTALLER_HOME/script $CF_TRENDMAP_INSTALL_DIR/$CF_INSTALLER_DOWNLOAD_DIR_NAME
-                ;;
         esac
 }
 
@@ -94,7 +80,6 @@ function echo_start() {
 function echo_end() {
 	cf_echo_end ${0}
 }
-
 
 case $MODE in
 	"src")echo_start;copy_src $TARGET;echo_end;;

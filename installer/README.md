@@ -33,5 +33,6 @@ $MANAGER_HOME/script/util/delete-cf.sh hadoop
 
 ## TODO LIST
 
-- 사용매뉴얼을 상세하게 적어야함
-- single node 설치에서 지원해야함
+- 사용매뉴얼을 상세하게 적어야 한다.
+- single node 설치에서 지원해야 한다.
+- 외부에 공개한 url이 installer를 포함하고 있어서 10월까지는 루트 디렉토리명을 installer로 명명 이후에는 manager로 변경해야 한다.
